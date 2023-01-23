@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser")
 const express = require("express")
+const cors = require("cors")
 
 
 
@@ -8,6 +9,7 @@ const app = express() //Instanciacao do express
 app.use(express.static("."))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+app.use(cors())
 
 
 const multer = require("multer")
@@ -22,10 +24,10 @@ const storage = multer.diskStorage({
 
 })
 
-const upload = multer({storage}).single("arquivo")
+const upload = multer().single("arquivo")
 
 app.post("/upload", (req, res) => {
-
+    
     upload(req, res, err => {
         if(err){
             return err.end("Ocorreu um erro.")
@@ -33,6 +35,14 @@ app.post("/upload", (req, res) => {
         res.end("Concluído com sucesso.")    
     })
 })
+
+app.post("/formulario", (req, res) => {
+    res.send( {
+        ...req.body,
+        id: 1
+    })
+})
+
 
 app.listen(8080, () => console.log("Executando ..."))
 
