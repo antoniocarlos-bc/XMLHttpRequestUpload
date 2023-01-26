@@ -22,21 +22,19 @@
 
 <body class="conteudo exercicio">
     <h1>Formulário Via Fetch</h1>
-    <form name="usuarioForm" action="formulario" method="post">
-        <input type="text" name="nome" placeholder="Nome..." />
-        <input type="text" name="sobrenome" placeholder="Sobrenome..." />
+    <form name="usuarioForm" action='formulario' method="post">
+        <input type="text" name="nome" placeholder="Nome..."/>
+        <input type="text" name="sobrenome" placeholder="Sobrenome..."/>
         <button>Salvar</button>
     </form>
     <div id="resultado"></div>
     <script>
-        document.usuarioForm.onsubmit =  e => {
+        document.usuarioForm.onsubmit =  async e => {
             e.preventDefault()
             const form = e.target
             
             const data = new FormData(form) // método construtor do FormData
-            data.append("ajax", true)
-
-           
+            data.append("ajax", true)           
             
             const options = {
                 method: form.method,
@@ -44,11 +42,23 @@
                 }
 
             const resultado = document.getElementById("resultado")
-            
-            fetch(form.action,  options).then(resp => resp.json()).then(json => {                       
-                    resultado.innerHTML = JSON.stringify(json)
-            })
+            /*    
+            fetch("formulario",  options)
+                .then(resp => resp.json())
+                .then(json => resultado.innerHTML = JSON.stringify(json))
+                .catch(e => {
+                    resultado.innerHTML = e
+                })*/
+
+
+            try{
+                const resp = await fetch(form.action, options)
+                const json = await resp.json()
+                resultado.innerHTML = JSON.stringify(json)
+            }catch(e)  {
+
+                resultado.innerHTML = e
         
-    }
+          }
     </script>
 </body>

@@ -18,18 +18,20 @@
 </head>
 
 <body class="conteudo exercicio">
-    <input type="file" name="arquivo" />
+    <input type="file" name="arquivo"/>
     <div class="progresso"></div>
 
     <script>
 
         function ajaxUpload(config){
 
-            const xhr = new XMLHttpRequest()    
-            
-            xhr.open("post", config.url, true)
+            const xhr = new XMLHttpRequest()  
+          
+            console.log(xhr)  
+                     
 
             if(xhr.upload){
+
                 xhr.upload.onprogress = e => {
 
                     const atual = e.loaded
@@ -38,11 +40,14 @@
                     config.progresso({atual, total, percentual})
                 }
             } 
+            
+
+            xhr.open("post", config.url, true)
             xhr.send(config.formData)
 
         }
 
-        document.querySelector('[type=file]').onchange = e => {
+        document.querySelector('input[type=file]').onchange = e => {
 
             const formData = new FormData()
             formData.append(e.target.name, e.target.files[0])

@@ -15,7 +15,6 @@
         fetch(url)
             .then(resp => resp.json())
             .then(estados => {
-                console.log(estados)
                 let itens = estados.reduce( (html, estado) => 
                 html + `<li>${estado.nome}</li>`, '')
                 document.body.insertAdjacentHTML("beforeend", `<ul>${itens}</ul>`)
